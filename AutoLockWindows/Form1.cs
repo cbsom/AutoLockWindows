@@ -25,7 +25,7 @@ namespace AutoLockWindows
         static extern bool LockWorkStation();
 
         [DllImport("advapi32.dll")]
-        static extern bool LogonUser(string userName, string domainName, string password, int LogonType, int LogonProvider, ref IntPtr phToken);
+        static extern bool LogonUser(string userName, string domainName, string password, int logonType, int logonProvider, ref IntPtr phToken);
 
 
         public Form1()
@@ -114,7 +114,8 @@ namespace AutoLockWindows
                 throw new Exception($"{_fullRegKey}\\TimerInterval not found");
             }
 
-            this.numericUpDown1.Value = (int)(interval / 60000);
+            //The whole unnecessary conversion thing is just to keep ReSharper quiet....
+            this.numericUpDown1.Value = Math.Floor((decimal)(interval / 60000.0)); 
             Log($"Registry value TimerInterval found. Value: {interval}");
         }
 
@@ -147,13 +148,6 @@ namespace AutoLockWindows
         private void btnSave_Click(object sender, EventArgs e)
         {
             SaveToRegistry();
-        }
-
-        private void btnSaveAndExit_Click(object sender, EventArgs e)
-        {
-            SaveToRegistry();
-            Log("Closing application");
-            Application.Exit();
         }
 
         private void SaveToRegistry()
