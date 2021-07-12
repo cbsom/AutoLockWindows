@@ -15,7 +15,13 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_02EC3B52F1A040D4836C38481FFDA89B"
+        "MsmKey" = "8:_61636C1F35524AD5A47356F057F815F6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C886F9E240864502962440B70B9FACF8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -44,6 +50,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.CoreRuntime.3.1.x64"
+                    {
+                    "Name" = "8:.NET Core Runtime 3.1.16 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.CoreRuntime.3.1.x64"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.3.1.x64"
+                    {
+                    "Name" = "8:.NET Desktop Runtime 3.1.16 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.DesktopRuntime.3.1.x64"
+                    }
+                }
             }
         }
         "Release"
@@ -75,6 +94,16 @@
                     "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
                     "ProductCode" = "8:.NETFramework,Version=v4.7.2"
                     }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.CoreRuntime.3.1.x64"
+                    {
+                    "Name" = "8:.NET Core Runtime 3.1.16 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.CoreRuntime.3.1.x64"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.3.1.x64"
+                    {
+                    "Name" = "8:.NET Desktop Runtime 3.1.16 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.DesktopRuntime.3.1.x64"
+                    }
                 }
             }
         }
@@ -83,34 +112,6 @@
     {
         "CustomAction"
         {
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_ED2E943A2C5D479B96F9F8EF1FFAC7E1"
-            {
-            "Name" = "8:Primary output from AutoLockService (Active)"
-            "Condition" = "8:"
-            "Object" = "8:"
-            "FileType" = "3:2"
-            "InstallAction" = "3:1"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_90C011CC_0864_4CE2_BB2B_004CF92F2A76"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_F48323DEC18C44C0B4D4C73944B64798"
-            {
-            "Name" = "8:Primary output from AutoLockService (Active)"
-            "Condition" = "8:"
-            "Object" = "8:"
-            "FileType" = "3:2"
-            "InstallAction" = "3:4"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_81103AF9_E2C0_4AAD_BBD6_847FBBE648F4"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
         }
         "DefaultFeature"
         {
@@ -132,18 +133,30 @@
                 "Architecture" = "2:0"
                 "Runtime" = "2:0"
                 }
-                "{A06ECF26-33A3-4562-8140-9B0E340D4F24}:_E63C985EA1044E3AB908377AC576C372"
-                {
-                "Name" = "8:.NET Framework"
-                "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:.NETFramework,Version=v4.7.2"
-                "AllowLaterVersions" = "11:FALSE"
-                "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=863262"
-                }
             }
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C886F9E240864502962440B70B9FACF8"
+            {
+            "SourcePath" = "8:..\\icon.ico"
+            "TargetName" = "8:icon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_523EE16440D14835B53C4E8D1D2ED3AA"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -169,6 +182,28 @@
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Property" = "8:ProgramMenuFolder"
+                "Folders"
+                {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_9A04BBCE0A0F464EA7F25074F7DEC274"
+                    {
+                    "Name" = "8:AutoLockWindows"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_6A5D762FD9274C9C808AA78A33B7B982"
+                        "Folders"
+                        {
+                        }
+                    }
+                }
+            }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_C087435D8F024BC9B677A1CC344E56B8"
+            {
+            "Name" = "8:#1928"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:StartupFolder"
                 "Folders"
                 {
                 }
@@ -201,7 +236,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:AutoLockWindows"
         "ProductCode" = "8:{4BBB6D5B-22FA-43C8-949B-23E1FE58394C}"
-        "PackageCode" = "8:{59BDC7AF-45FB-4EAC-BD4C-BE0D59D6FF8A}"
+        "PackageCode" = "8:{F0765281-E9F7-4A2D-B13F-4FDB96F3EB80}"
         "UpgradeCode" = "8:{9C22D1C8-D3E1-4212-9A4A-E307981D004D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -351,6 +386,48 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_08E8F0EE48604CE088CD00D896960ECB"
+            {
+            "Name" = "8:AutoLockWindows"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_61636C1F35524AD5A47356F057F815F6"
+            "Folder" = "8:_C087435D8F024BC9B677A1CC344E56B8"
+            "WorkingFolder" = "8:_523EE16440D14835B53C4E8D1D2ED3AA"
+            "Icon" = "8:_C886F9E240864502962440B70B9FACF8"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_6716C1261C544B9B96134A890CAA91C1"
+            {
+            "Name" = "8:AutoLockWindows"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_61636C1F35524AD5A47356F057F815F6"
+            "Folder" = "8:_9A04BBCE0A0F464EA7F25074F7DEC274"
+            "WorkingFolder" = "8:_523EE16440D14835B53C4E8D1D2ED3AA"
+            "Icon" = "8:_C886F9E240864502962440B70B9FACF8"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7F62D5A57BA0413791AF8FBF23A04374"
+            {
+            "Name" = "8:AutoLockWindows"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_61636C1F35524AD5A47356F057F815F6"
+            "Folder" = "8:_CA4DCEB387C5467BBC5FC5E8BEFF46E8"
+            "WorkingFolder" = "8:_523EE16440D14835B53C4E8D1D2ED3AA"
+            "Icon" = "8:_C886F9E240864502962440B70B9FACF8"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -750,9 +827,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_02EC3B52F1A040D4836C38481FFDA89B"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_61636C1F35524AD5A47356F057F815F6"
             {
-            "SourcePath" = "8:..\\AutoLockWindows\\obj\\Debug\\netcoreapp3.1\\apphost.exe"
+            "SourcePath" = "8:..\\AutoLockWindows\\obj\\Release\\netcoreapp3.1\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_523EE16440D14835B53C4E8D1D2ED3AA"
