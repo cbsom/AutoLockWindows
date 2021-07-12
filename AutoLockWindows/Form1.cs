@@ -46,8 +46,8 @@ namespace AutoLockWindows
         private void ShowLoginPanel()
         {
             this.pnlLogin.Width = this.ClientRectangle.Width;
-            this.pnlLogin.Height = this.ClientRectangle.Height;
-            this.pnlLogin.Location = new Point(0, 0);
+            this.pnlLogin.Height = this.ClientRectangle.Height - this.lblTimeLeft.Height;
+            this.pnlLogin.Location = new Point(0, this.lblTimeLeft.Height);
             this.pnlLogin.Visible = true;
             this.txtPassword.Text = "";
             this.Focus();
@@ -202,11 +202,9 @@ namespace AutoLockWindows
             switch (this.WindowState)
             {
                 case FormWindowState.Minimized:
-                    notifyIcon1.Visible = true;
                     this.Hide();
                     break;
                 case FormWindowState.Normal:
-                    notifyIcon1.Visible = false;
                     break;
             }
         }
@@ -265,7 +263,6 @@ namespace AutoLockWindows
             else
             {
                 Log($"In OnTimedEvent: LockWorkStation called successfully.");
-                this.notifyIcon1.Visible = true;
                 this.Hide();
             }
         }
@@ -294,6 +291,13 @@ namespace AutoLockWindows
         {
             TimeSpan ts = (_nextLockTime - DateTime.Now);
             this.lblTimeLeft.Text = $@"הנעילה הבאה בעוד {ts.Hours} שעות {ts.Minutes} דקות {ts.Seconds} שניות";
+            this.notifyIcon1.Text = this.lblTimeLeft.Text;
+            
+            if ((int)ts.TotalSeconds == 30)
+            {
+                this.notifyIcon1.BalloonTipText = "נעילה אוטומטית בעוד 30 שניות";
+                this.notifyIcon1.ShowBalloonTip(30000);
+            }
         }
 
         private void DestroyTimer()
@@ -317,7 +321,6 @@ namespace AutoLockWindows
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.notifyIcon1.Visible = true;
             this.Hide();
         }
 

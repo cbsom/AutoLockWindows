@@ -174,6 +174,8 @@ namespace AutoLockWindows
             // 
             // notifyIcon1
             // 
+            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Warning;
+            this.notifyIcon1.BalloonTipTitle = "נעילה אוטומטית";
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
@@ -287,7 +289,7 @@ namespace AutoLockWindows
             this.lblTimeLeft.Name = "lblTimeLeft";
             this.lblTimeLeft.Size = new System.Drawing.Size(545, 31);
             this.lblTimeLeft.TabIndex = 11;
-            this.lblTimeLeft.Text = "label3";
+            this.lblTimeLeft.Text = "נעילה אוטומטית";
             this.lblTimeLeft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
