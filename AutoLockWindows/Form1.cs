@@ -40,11 +40,16 @@ namespace AutoLockWindows
             InitRegistry();
             InitFromRegistry();
             CreateTimer();
+            HideLog();
             ShowLoginPanel();
         }
 
         private void ShowLoginPanel()
         {
+            if (!this.lvLog.Visible)
+            {
+                this.Height += lvLog.Height;
+            }
             this.pnlLogin.Width = this.ClientRectangle.Width;
             this.pnlLogin.Height = this.ClientRectangle.Height - this.lblTimeLeft.Height;
             this.pnlLogin.Location = new Point(0, this.lblTimeLeft.Height);
@@ -72,6 +77,8 @@ namespace AutoLockWindows
                 Log("Registry value PreventAppNames set.");
                 skn.SetValue("TimerInterval", DefaultInterval, RegistryValueKind.DWord);
                 Log("Registry value TimerInterval set.");
+                skn.SetValue("Language", "English", RegistryValueKind.String);
+                Log("Registry value Language set.");
             }
             else
             {
@@ -115,8 +122,69 @@ namespace AutoLockWindows
             }
 
             //The whole unnecessary conversion thing is just to keep ReSharper quiet....
-            this.numericUpDown1.Value = Math.Floor((decimal)(interval / 60000.0)); 
+            this.numericUpDown1.Value = Math.Floor((decimal)(interval / 60000.0));
             Log($"Registry value TimerInterval found. Value: {interval}");
+
+            string language = (string)Registry.GetValue(_fullRegKey, "Language", null);
+            if (language == null)
+            {
+                Log("Registry value Language not found.");
+                Registry.SetValue(_fullRegKey, "Language", "English", RegistryValueKind.String);
+                language = "English";
+            }
+
+            this.cmbLanguage.SelectedItem = language;
+        }
+
+        private void ChangeLanguage(string language)
+        {
+            switch (language)
+            {
+                case "English":
+                    this.RightToLeft = RightToLeft.No;
+                    this.RightToLeftLayout = false;
+                    foreach (Control control in this.Controls)
+                    {
+                        if (control != this.lvLog)
+                            control.RightToLeft = RightToLeft.No;
+                    }
+
+                    this.lblTimeLeft.Text = "Auto-Lock Windows";
+                    this.lblEnterPassword.Text = "Enter your Windows User Password";
+                    this.lblMinutes.Text = "Minutes to Auto-Lock";
+                    this.cbWord.Text = "Do not lock if Word is open";
+                    this.cbExcel.Text = "Do not lock if Excel is open";
+                    this.btnHide.Text = "Hide";
+                    this.btnClose.Text = "Close";
+                    this.btRun.Text = "Run Countdown";
+                    this.btStop.Text = "Stop Countdown";
+                    this.btnSave.Text = "Save Settings";
+                    this.btnContinue.Text = "Continue";
+                    this.llLockNow.Text = "Lock Now";
+                    break;
+                case "עברית":
+                    this.RightToLeft = RightToLeft.Yes;
+                    this.RightToLeftLayout = true;
+                    foreach (Control control in this.Controls)
+                    {
+                        if (control != this.lvLog)
+                            control.RightToLeft = RightToLeft.Yes;
+                    }
+
+                    this.lblTimeLeft.Text = "נעילה אוטומטית";
+                    this.lblEnterPassword.Text = "סיסמת חשבון משתמש";
+                    this.lblMinutes.Text = "דקות עד נעילה";
+                    this.cbWord.Text = "לא לנעול אם WORD פתוח";
+                    this.cbExcel.Text = "לא לנעול אם EXCEL פתוח";
+                    this.btnHide.Text = "הסתר";
+                    this.btnClose.Text = "סגור";
+                    this.btRun.Text = "הפעלת הסטופר";
+                    this.btStop.Text = "הפסק הסטופר";
+                    this.btnSave.Text = "שמור הגדרות";
+                    this.btnContinue.Text = "המשך";
+                    this.llLockNow.Text = "לנעול עכשיו";
+                    break;
+            }
         }
 
         private void btRun_Click(object sender, EventArgs e)
@@ -167,7 +235,6 @@ namespace AutoLockWindows
             Log("Saved PreventAppNames registry key. Value: " + preventApps, Color.MediumPurple);
             Registry.SetValue(_fullRegKey, "TimerInterval", this.numericUpDown1.Value * 60000, RegistryValueKind.DWord);
             Log("Saved TimerInterval registry key. Value: " + (this.numericUpDown1.Value * 6000), Color.MediumPurple);
-
             if (_timer != null)
             {
                 CreateTimer();
@@ -178,15 +245,15 @@ namespace AutoLockWindows
         private void Log(string txt, Color color)
         {
             var lvi = new ListViewItem { Text = txt, ForeColor = color };
-            this.listView1.Items.Add(lvi);
-            this.listView1.Refresh();
-            this.listView1.EnsureVisible(this.listView1.Items.IndexOf(lvi));
+            this.lvLog.Items.Add(lvi);
+            this.lvLog.Refresh();
+            this.lvLog.EnsureVisible(this.lvLog.Items.IndexOf(lvi));
             File.AppendAllText(_logPath, $@"{DateTime.Now:G} [App] {txt}{Environment.NewLine}");
         }
 
         private void Log(string txt)
         {
-            this.Log(txt, this.listView1.ForeColor);
+            this.Log(txt, this.lvLog.ForeColor);
         }
         private void Warn(string txt)
         {
@@ -279,7 +346,7 @@ namespace AutoLockWindows
             _timer = new Timer() { Interval = interval };
             _timer.Tick += OnTimedEvent;
             _timer.Start();
-            _secondTimer = new Timer() {Interval = 1000};
+            _secondTimer = new Timer() { Interval = 1000 };
             _secondTimer.Tick += SecondTimerTick;
             _secondTimer.Start();
             _nextLockTime = DateTime.Now.AddMilliseconds(interval);
@@ -290,12 +357,16 @@ namespace AutoLockWindows
         private void SecondTimerTick(object sender, EventArgs e)
         {
             TimeSpan ts = (_nextLockTime - DateTime.Now);
-            this.lblTimeLeft.Text = $@"הנעילה הבאה בעוד {ts.Hours} שעות {ts.Minutes} דקות {ts.Seconds} שניות";
+            this.lblTimeLeft.Text = this.cmbLanguage.SelectedItem.ToString() == "English"
+                ? $@"Computer will auto-lock in {ts.Hours} hours {ts.Minutes} minutes and {ts.Seconds} seconds"
+                : $@"הנעילה הבאה בעוד {ts.Hours} שעות {ts.Minutes} דקות {ts.Seconds} שניות";
             this.notifyIcon1.Text = this.lblTimeLeft.Text;
-            
-            if ((int)ts.TotalSeconds == 30)
+
+            if ((int)ts.TotalSeconds == 10)
             {
-                this.notifyIcon1.BalloonTipText = "נעילה אוטומטית בעוד 30 שניות";
+                this.notifyIcon1.BalloonTipText = this.cmbLanguage.SelectedItem.ToString() == "English"
+                    ? "Computer will auto-lock in 10 seconds"
+                    : "נעילה אוטומטית בעוד 10 שניות";
                 this.notifyIcon1.ShowBalloonTip(30000);
             }
         }
@@ -344,6 +415,10 @@ namespace AutoLockWindows
             if (LogInUser(this.txtPassword.Text.Trim()))
             {
                 this.pnlLogin.Visible = false;
+                if (!this.lvLog.Visible)
+                {
+                    this.Height -= lvLog.Height;
+                }
             }
         }
 
@@ -351,8 +426,48 @@ namespace AutoLockWindows
         {
             if (e.KeyCode == Keys.Enter)
             {
-                this.button3.PerformClick();
+                this.btnContinue.PerformClick();
             }
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (this.lvLog.Visible)
+            {
+                HideLog();
+            }
+            else
+            {
+                ShowLog();
+            }
+        }
+
+        private void cmbLanguage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var language = this.cmbLanguage.SelectedItem.ToString() ?? "English";
+            Registry.SetValue(_fullRegKey, "Language", language, RegistryValueKind.String);
+            Log($"Saved Language registry key. Value: {language}", Color.MediumPurple);
+            try
+            {
+                ChangeLanguage(language);
+                Log($"Changed language to {language}", Color.MediumPurple);
+            }
+            catch (Exception exception)
+            {
+                Error($"Failed to change language to {language}, Exception: {exception.Message}");
+            }
+        }
+
+        private void HideLog()
+        {
+            this.Height -= this.lvLog.Height;
+            this.lvLog.Visible = false;
+        }
+
+        private void ShowLog()
+        {
+            this.lvLog.Visible = true;
+            this.Height += this.lvLog.Height;
         }
     }
 }
